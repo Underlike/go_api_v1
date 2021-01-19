@@ -25,6 +25,7 @@ func SearchUrl(w http.ResponseWriter, r *http.Request) {
 
 	/**
 	 * Faire passer la variable en body
+	 * Rediriger vers l'original
 	 */
 
 	api := models.SearchUrl("https://test.fr/")
