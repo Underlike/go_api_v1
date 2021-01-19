@@ -32,6 +32,6 @@ func initializeRouter() {
         ReadTimeout:  15 * time.Second,
     }
 
-	fmt.Printf(InfoColor, "Server start on http://localhost:5002")
+	fmt.Printf(InfoColor, "Server start on http://localhost:5002 \n")
 	log.Fatal(srv.ListenAndServe())
 }

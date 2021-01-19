@@ -1,13 +1,8 @@
 package config
 
 import (
-	"fmt"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-)
-
-const (
-	InfoColor ="\033[1;34m%s\033[0m"
 )
 
 func InitializeDatabase() *sql.DB {
@@ -16,7 +11,5 @@ func InitializeDatabase() *sql.DB {
     if err != nil {
         panic(err.Error())
 	}
-	
-	fmt.Printf(InfoColor, "Initialization of database - OK \n")
 	return db
 }
