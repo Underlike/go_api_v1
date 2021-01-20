@@ -1,9 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"../config"
-	"math/rand"
-	"time"
+	//"math/rand"
+	//"time"
 	"github.com/kare/base62"
 )
 
@@ -17,11 +18,11 @@ type Apis []Api
 
 func NewUrl(api *Api, url string) *Api {
 	var apiSend Api
-	rand.Seed(time.Now().Unix())
-	encodage := rand.Int63n(1566541545632156)
-	urlEncode := "http://localhost:5002/" + base62.Encode(encodage)
 
-	config.InitializeDatabase().QueryRow("INSERT INTO `apis` (`default_url`, `rewrite_url`) VALUES ('"+ url +"', '"+ urlEncode +"');")
+	config.InitializeDatabase().QueryRow("SELECT `id` FROM `apis` ORDER BY ID DESC").Scan(&api.Id)
+	urlEncode := "http://localhost:5002/" + base62.Encode(int64(api.Id))
+
+	config.InitializeDatabase().QueryRow("INSERT INTO `apis` (`default_url`, `rewrite_url`) VALUES (?, ?)", url, urlEncode)
 	config.InitializeDatabase().QueryRow("SELECT `id`, `default_url`, `rewrite_url` FROM `apis` WHERE `rewrite_url` = ?", urlEncode).Scan(&api.Id, &api.DefaultUrl, &api.RewriteUrl)
 
 	return &apiSend
