@@ -21,13 +21,9 @@ func NewUrl(w http.ResponseWriter, r *http.Request) {
 }
 
 func SearchUrl(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("content-type", "application/json")
-	json.NewEncoder(w).Encode("OK")
-
 	vars := mux.Vars(r)
 	url := "http://localhost:5002/" + vars["key"]
-
 	api := models.SearchUrl(url)
-	fmt.Printf(api.DefaultUrl)
+
 	http.Redirect(w, r, api.DefaultUrl, 302)
 }
