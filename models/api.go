@@ -1,10 +1,7 @@
 package models
 
 import (
-	"fmt"
 	"../config"
-	//"math/rand"
-	//"time"
 	"github.com/kare/base62"
 )
 
