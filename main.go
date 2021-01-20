@@ -23,7 +23,7 @@ func initializeRouter() {
 	router := mux.NewRouter().StrictSlash(true)
 	
 	router.Methods("POST").Path("/v1/api/new").Name("Create").HandlerFunc(controllers.NewUrl)
-	router.Methods("GET").Path("/{key}").Name("Search").HandlerFunc(controllers.SearchUrl)
+	router.Methods("GET").Path("/{key}").Name("Redirect").HandlerFunc(controllers.RedirectUrl)
 
 	srv := &http.Server{
         Handler: router,

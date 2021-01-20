@@ -16,11 +16,11 @@ func NewUrl(w http.ResponseWriter, r *http.Request) {
 
 	var api models.Api
 	models.NewUrl(&api, url)
-	json.NewEncoder(w).Encode("success")
 	fmt.Printf("Insert into database down - OK \n")
+	json.NewEncoder(w).Encode("Url rewrite: " + api.RewriteUrl)
 }
 
-func SearchUrl(w http.ResponseWriter, r *http.Request) {
+func RedirectUrl(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	url := "http://localhost:5002/" + vars["key"]
 	api := models.SearchUrl(url)
