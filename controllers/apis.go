@@ -2,20 +2,17 @@ package controllers
 
 import (
 	"fmt"
-	//"log"
-	//"strconv"
 	"net/http"
 	"../models"
 	"encoding/json"
-	//"github.com/gorilla/mux"
-	
+	"github.com/gorilla/mux"
 )
 
 func NewUrl(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	
-	url := "https://test.fr"
+	url := r.FormValue("url")
 
 	var api models.Api
 	models.NewUrl(&api, url)
@@ -27,11 +24,10 @@ func SearchUrl(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
 	json.NewEncoder(w).Encode("OK")
 
-	/**
-	 * Faire passer la variable en body
-	 * Rediriger vers l'original
-	 */
+	vars := mux.Vars(r)
+	url := "http://localhost:5002/" + vars["key"]
 
-	api := models.SearchUrl("https://test.fr/")
-	json.NewEncoder(w).Encode(api)
+	api := models.SearchUrl(url)
+	fmt.Printf(api.DefaultUrl)
+	http.Redirect(w, r, api.DefaultUrl, 302)
 }

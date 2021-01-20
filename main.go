@@ -20,10 +20,10 @@ func main() {
 }
 
 func initializeRouter() {
-	router := mux.NewRouter()
-
-	router.HandleFunc("/v1/api/new", controllers.NewUrl)
-	router.HandleFunc("/v1/api", controllers.SearchUrl)
+	router := mux.NewRouter().StrictSlash(true)
+	
+	router.Methods("POST").Path("/v1/api/new").Name("Create").HandlerFunc(controllers.NewUrl)
+	router.Methods("GET").Path("/{key}").Name("Search").HandlerFunc(controllers.SearchUrl)
 
 	srv := &http.Server{
         Handler: router,

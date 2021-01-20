@@ -15,26 +15,17 @@ type Api struct {
 type Apis []Api
 
 func NewUrl(api *Api, url string) {
-	if api == nil {
-	  	log.Fatal(api)
-	}
-
 	urlEncode := base62.StdEncoding.EncodeToString([]byte(url))
-	err := config.InitializeDatabase().QueryRow("INSERT INTO apis (`default_url`, `rewrite_url`) VALUES ('"+ url +"', 'http://localhost:5002/"+ urlEncode +"')")
-  
-	if err == nil {
-	  	log.Fatal(err)
-	}
+	config.InitializeDatabase().QueryRow("INSERT INTO `apis` (`default_url`, `rewrite_url`) VALUES ('"+ url +"', 'http://localhost:5002/"+ urlEncode +"')")
+	
 }
 
 func SearchUrl(url string) *Api {
 	var api Api
-  
-	row := config.InitializeDatabase().QueryRow("SELECT * FROM apis WHERE rewrite_url = '" + url + "';")
-	err := row.Scan(&api.Id, &api.DefaultUrl, &api.RewriteUrl)
-  
+	err := config.InitializeDatabase().QueryRow("SELECT `id`, `default_url`, `rewrite_url` FROM `apis` WHERE `rewrite_url` = ?", url).Scan(&api.Id, &api.DefaultUrl, &api.RewriteUrl)
+
 	if err != nil {
-	  	log.Fatal(err)
+		log.Fatal(err)
 	}
   
 	return &api
