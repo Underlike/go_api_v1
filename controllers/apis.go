@@ -1,22 +1,26 @@
 package controllers
 
 import (
+	"fmt"
+	//"log"
+	//"strconv"
 	"net/http"
-	"encoding/json"
 	"../models"
+	"encoding/json"
+	//"github.com/gorilla/mux"
+	
 )
 
 func NewUrl(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
-
-	/**
-	 * Faire passer la variable en body
-	 */
+	
+	url := "https://test.fr"
 
 	var api models.Api
-	models.NewUrl(&api, "https://test.fr")
-	json.NewEncoder(w).Encode(api)
+	models.NewUrl(&api, url)
+	json.NewEncoder(w).Encode("success")
+	fmt.Printf("Insert into database down - OK \n")
 }
 
 func SearchUrl(w http.ResponseWriter, r *http.Request) {

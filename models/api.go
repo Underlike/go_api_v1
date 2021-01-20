@@ -1,10 +1,9 @@
 package models
 
 import (
-	"fmt"
 	"log"
 	"../config"
-	//"github.com/kare/base62"
+	"github.com/lytics/base62"
 )
 
 type Api struct {
@@ -19,14 +18,13 @@ func NewUrl(api *Api, url string) {
 	if api == nil {
 	  	log.Fatal(api)
 	}
-  
-	err := config.InitializeDatabase().QueryRow("INSERT INTO apis (`default_url`, `rewrite_url`) VALUES ('"+ url +"', '"+ url +"')")
+
+	urlEncode := base62.StdEncoding.EncodeToString([]byte(url))
+	err := config.InitializeDatabase().QueryRow("INSERT INTO apis (`default_url`, `rewrite_url`) VALUES ('"+ url +"', 'http://localhost:5002/"+ urlEncode +"')")
   
 	if err == nil {
 	  	log.Fatal(err)
 	}
-
-	fmt.Printf("Insert into database down - OK \n")
 }
 
 func SearchUrl(url string) *Api {

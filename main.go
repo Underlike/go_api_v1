@@ -23,7 +23,7 @@ func initializeRouter() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/v1/api/new", controllers.NewUrl)
-	router.HandleFunc("/v1/api/{url}", controllers.SearchUrl)
+	router.HandleFunc("/v1/api", controllers.SearchUrl)
 
 	srv := &http.Server{
         Handler: router,
