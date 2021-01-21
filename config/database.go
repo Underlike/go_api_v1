@@ -1,15 +1,19 @@
 package config
 
 import (
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
+	"log"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
-func InitializeDatabase() *sql.DB {
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/url-rewrite")
+func InitializeDatabase() *gorm.DB {
+	dsn := "root:@tcp(127.0.0.1:3306)/url-rewrite?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
-    if err != nil {
-        panic(err.Error())
+	if err != nil {
+		log.Println(err)
 	}
+
 	return db
 }
